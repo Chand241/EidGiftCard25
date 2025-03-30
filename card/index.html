@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ঈদ উপহার কার্ড</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        #container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 12px;
+            font-size: 1em;
+            width: 260px;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 15px;
+            outline: none;
+            transition: 0.3s;
+            background: white;
+            color: black;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 1.2em;
+            background-color: #FFD700;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #FFC107;
+        }
+        #error {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+        #card {
+            display: none;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            max-width: 90%;
+            width: 500px;
+            box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.3);
+            animation: fadeIn 1s ease-in-out;
+        }
+        #images {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #images img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transform: scale(1.1);
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+            position: absolute;
+        }
+        .fade-in {
+            opacity: 1 !important;
+            transform: scale(1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+            #container, #card {
+                width: 90%;
+            }
+            #images {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>আপনার নাম লিখে উপহার কার্ড খুলুন</h1>
+        <input type="text" id="nameInput" placeholder="নাম লিখুন">
+        <button onclick="checkName()">কার্ড খুলুন</button>
+        <p id="error">Invalid Name! Please try again.</p>
+    </div>
+
+    <div id="card">
+        <h2 id="greeting">ঈদ মোবারক!</h2>
+        <div id="images">
+            <img src="card/cd1.jpg" class="image">
+            <img src="card/cd2.jpg" class="image">
+            <img src="card/cd3.jpg" class="image">
+            <img src="card/cd4.jpg" class="image">
+            <img src="card/cd5.jpg" class="image">
+        </div>
+        <p id="message">আপনাকে আনন্দময় ও বরকতময় ঈদের শুভেচ্ছা!</p>
+    </div>
+
+    <script>
+        const messages = [
+            "ঈদ মোবারক! আপনার জীবনে সুখ, শান্তি এবং সমৃদ্ধি আসুক।",
+            "ঈদ আনন্দের সাথে আপনার জীবনে শান্তি এবং সমৃদ্ধি আসুক।",
+            "ঈদ মোবারক! আপনার প্রতিটি দিন হোক সফলতা এবং আনন্দে পূর্ণ।",
+            "ঈদ মোবারক! জীবনে সুখ এবং সমৃদ্ধির প্রার্থনা রইলো।",
+            "ঈদ মোবারক! আপনার জীবনে সবসময় সুখ, শান্তি এবং ভালোবাসা থাকুক।"
+        ];
+
+        function checkName() {
+            let name = document.getElementById('nameInput').value.trim();
+            let error = document.getElementById('error');
+            let card = document.getElementById('card');
+            
+            if (name.toLowerCase() === "raisha") {
+                document.getElementById('container').style.display = 'none';
+                card.style.display = 'block';
+                document.getElementById('greeting').innerText = "ঈদ মোবারক, " + name + "!";
+                setTimeout(showImages, 500);
+                error.style.display = 'none';
+            } else {
+                error.style.display = 'block';
+            }
+        }
+
+        function showImages() {
+            let images = document.querySelectorAll('#images img');
+            let message = document.getElementById('message');
+            let index = 0;
+
+            function showNextImage() {
+                images.forEach(img => img.classList.remove('fade-in'));
+                images[index].classList.add('fade-in');
+                message.innerText = messages[index]; // Change message with image
+                index = (index + 1) % images.length;
+                setTimeout(showNextImage, 4000);
+            }
+            showNextImage();
+        }
+    </script>
+</body>
+</html>
